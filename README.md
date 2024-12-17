@@ -1,8 +1,10 @@
 # secure-ls
 
+wuc656 自用
+
 Secure localStorage/sessionStorage data with high level of encryption and data compression.
 
-[![npm version](https://img.shields.io/npm/v/secure-ls?style=for-the-badge&color=grey&logo=npm)](https://www.npmjs.com/package/secure-ls) [![npm](https://img.shields.io/npm/dt/secure-ls.svg?style=for-the-badge&color=blue)](https://www.npmjs.com/package/secure-ls)
+[![npm version](https://img.shields.io/npm/v/secure-ls2?style=for-the-badge&color=grey&logo=npm)](https://www.npmjs.com/package/secure-ls2) [![npm](https://img.shields.io/npm/dt/secure-ls2.svg?style=for-the-badge&color=blue)](https://www.npmjs.com/package/secure-ls2)
 
 [![CI](https://img.shields.io/github/actions/workflow/status/softvar/secure-ls/test.yml?style=for-the-badge&logo=github)](https://github.com/softvar/secure-ls/actions?query=workflow%3ACI)
 [![codecov](https://img.shields.io/codecov/c/github/softvar/secure-ls?token=HxMmlpGn3k&style=for-the-badge&logo=codecov)](https://codecov.io/gh/softvar/secure-ls)
@@ -21,7 +23,7 @@ Secure localStorage/sessionStorage data with high level of encryption and data c
 Via NPM
 
 ```bash
-npm install secure-ls
+npm install secure-ls2
 ```
 
 Via yarn

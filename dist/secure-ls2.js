@@ -1,5 +1,5 @@
 /*!
- * secure-ls - v3.0.0
+ * secure-ls2 - v2.0.1
  * URL - https://github.com/softvar/secure-ls
  *
  * The MIT License (MIT)
@@ -5637,4 +5637,4 @@ unless all keys created by Secure LS are removed!`;
     /******/
   })();
 });
-//# sourceMappingURL=secure-ls.js.map
+//# sourceMappingURL=secure-ls2.js.map
