@@ -1,6 +1,6 @@
 {
   "name": "secure-ls2",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Secure localStorage/sessionStorage data with high level of encryption and data compression",
   "main": "./dist/secure-ls.js",
   "browser": "./dist/secure-ls.js",
