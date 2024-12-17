@@ -8,6 +8,8 @@ pids
 *.pid
 *.seed
 dist
+dist/*
+dist/
 # Coverage directory used by tools like istanbul
 coverage
 .coveralls.yml
