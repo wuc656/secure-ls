@@ -178,7 +178,6 @@ const ls = new SecureLS({ encodingType: 'rc4', isCompression: false, encryptionS
 ```
 
 - Any other **storage** apart from localStorage
-
   - Using `sessionStorage`
 
     ```javascript
@@ -212,7 +211,6 @@ const ls = new SecureLS({ encodingType: 'rc4', isCompression: false, encryptionS
 - **`set`**
 
   Saves `data` in specifed `key` in localStorage. If the key is not provided, the library will warn. Following types of JavaScript objects are supported:
-
   - Array
   - ArrayBuffer
   - Blob
