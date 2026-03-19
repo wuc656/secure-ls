@@ -74,7 +74,7 @@ const Base64 = {
     let n = 0;
     let r, c2, c3;
 
-    r = c2 = 0;
+    // r = c2 = 0;
     while (n < e.length) {
       r = e.charCodeAt(n);
       if (r < 128) {

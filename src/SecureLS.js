@@ -200,7 +200,7 @@ export class SecureLS {
   }
 
   get(key, isAllKeysData) {
-    let decodedData = '';
+    let decodedData;
     let jsonData = '';
 
     if (!utils.is(key)) {
@@ -247,7 +247,7 @@ export class SecureLS {
   }
 
   set(key, data) {
-    let dataToStore = '';
+    let dataToStore;
 
     if (!utils.is(key)) {
       utils.warn(constants.WarningEnum.KEY_NOT_PROVIDED);
