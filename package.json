@@ -1,8 +1,15 @@
 {
   "name": "secure-ls2",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "description": "Secure localStorage/sessionStorage data with high level of encryption and data compression",
   "main": "./dist/secure-ls.js",
+  "module": "./dist/secure-ls2.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/secure-ls2.esm.js",
+      "require": "./dist/secure-ls2.js"
+    }
+  },
   "browser": "./dist/secure-ls.js",
   "typings": "./types/secure-ls.d.ts",
   "scripts": {

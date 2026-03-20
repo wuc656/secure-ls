@@ -59,21 +59,30 @@ Dependencies used - ${deps}`;
 }
 
 module.exports = function (_env, argv) {
-  return {
+  const baseConfig = {
     entry: {
       [libraryName]: '/src/index.js',
     },
     devtool: 'source-map',
     mode: argv.mode === PRODUCTION ? 'production' : 'development',
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: { loader: 'babel-loader' },
+        },
+      ],
+    },
+    resolve: { extensions: ['.js'] },
+    plugins: addPlugins(argv),
+  };
+
+  const umdConfig = {
+    ...baseConfig,
     output: {
       path: path.resolve(__dirname, 'dist'),
-      filename: () => {
-        if (argv.mode === PRODUCTION) {
-          return '[name].min.js';
-        }
-
-        return '[name].js';
-      },
+      filename: argv.mode === PRODUCTION ? '[name].min.js' : '[name].js',
       library: 'SecureLS',
       libraryTarget: 'umd',
       globalObject: 'this',
@@ -84,20 +93,17 @@ module.exports = function (_env, argv) {
         amd: ' AMD',
       },
     },
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: {
-            loader: 'babel-loader',
-          },
-        },
-      ],
-    },
-    resolve: {
-      extensions: ['.js'],
-    },
-    plugins: addPlugins(argv),
   };
+
+  const esmConfig = {
+    ...baseConfig,
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: argv.mode === PRODUCTION ? '[name].esm.min.js' : '[name].esm.js',
+      library: { type: 'module' },
+    },
+    experiments: { outputModule: true },
+  };
+
+  return [umdConfig, esmConfig];
 };
