@@ -55,7 +55,7 @@ export class SecureLS {
   }
 
   init() {
-    let metaData = this.getMetaData();
+    const metaData = this.getMetaData();
 
     this._isBase64 = this._isBase64EncryptionType();
     this._isAES = this._isAESEncryptionType();
@@ -95,25 +95,27 @@ export class SecureLS {
     return this.config.isCompression;
   }
 
-  getEncryptionSecret(key) {
-    let metaData = this.getMetaData();
-    let obj = utils.getObjectFromKey(metaData.keys, key);
+  _isDataEncryptionEnabled() {
+    return this._isAES || this._isDES || this._isRabbit || this._isRC4;
+  }
 
-    if (!obj) {
+  getEncryptionSecret(key) {
+    if (!this._isDataEncryptionEnabled()) {
       return;
     }
 
-    if (this._isAES || this._isDES || this._isRabbit || this._isRC4) {
-      if (typeof this.config.encryptionSecret === 'undefined') {
-        this.encryptionSecret = obj.s;
+    const metaData = this.getMetaData();
+    const obj = utils.getObjectFromKey(metaData.keys, key);
 
-        if (!this.encryptionSecret) {
-          this.encryptionSecret = utils.generateSecretKey();
-          this.setMetaData();
-        }
-      } else {
-        this.encryptionSecret = this.config.encryptionSecret || obj.s || '';
+    if (typeof this.config.encryptionSecret === 'undefined') {
+      this.encryptionSecret = obj.s;
+
+      if (!this.encryptionSecret) {
+        this.encryptionSecret = utils.generateSecretKey();
+        this.setMetaData();
       }
+    } else {
+      this.encryptionSecret = this.config.encryptionSecret || obj.s || '';
     }
   }
 
@@ -131,7 +133,7 @@ export class SecureLS {
   }
 
   setMetaData() {
-    let dataToStore = this.processData(
+    const dataToStore = this.processData(
       {
         keys: this.allKeys,
       },
@@ -194,7 +196,7 @@ export class SecureLS {
 
   // PUBLIC APIs
   getAllKeys() {
-    let data = this.getMetaData();
+    const data = this.getMetaData();
 
     return utils.extractKeyNames(data) || [];
   }
@@ -291,9 +293,9 @@ export class SecureLS {
   }
 
   removeAll() {
-    let keys = this.getAllKeys();
+    const keys = this.getAllKeys();
 
-    for (let i = 0; i < keys.length; i++) {
+    for (let i = 0, length = keys.length; i < length; i++) {
       this.storage.removeItem(keys[i]);
     }
 

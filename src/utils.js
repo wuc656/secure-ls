@@ -24,7 +24,9 @@ const utils = {
   },
 
   isKeyPresent: (allKeys = [], key) => {
-    return allKeys.some((item) => String(item.k) === String(key));
+    const keyName = String(key);
+
+    return allKeys.some((item) => String(item.k) === keyName);
   },
 
   removeFromKeysList: (allKeys = [], key) => {
