@@ -2,16 +2,26 @@
   "name": "secure-ls2",
   "version": "2.1.11",
   "description": "Secure localStorage/sessionStorage data with high level of encryption and data compression",
-  "main": "./dist/secure-ls.js",
-  "module": "./dist/secure-ls2.esm.js",
+  "main": "./dist/secure-ls2.js",
+  "module": "./dist/secure-ls2.esm.mjs",
   "exports": {
     ".": {
-      "import": "./dist/secure-ls2.esm.js",
-      "require": "./dist/secure-ls2.js"
+      "import": {
+        "types": "./types/secure-ls.d.mts",
+        "default": "./dist/secure-ls2.esm.mjs"
+      },
+      "require": {
+        "types": "./types/secure-ls.d.ts",
+        "default": "./dist/secure-ls2.js"
+      }
     }
   },
-  "browser": "./dist/secure-ls.js",
+  "browser": "./dist/secure-ls2.js",
   "typings": "./types/secure-ls.d.ts",
+  "files": [
+    "dist",
+    "types"
+  ],
   "scripts": {
     "build": "yarn build-dev && yarn build-prod",
     "build-dev": "webpack --mode=development",
@@ -21,7 +31,8 @@
     "build:major": "yarn build-dev --env type=major npm version major",
     "lint": "eslint src/*.js --fix",
     "prepare": "husky",
-    "prettier": "prettier -w **/*.js *.md",
+    "prettier": "prettier -w \"{src,test,example}/**/*.js\" \"*.md\"",
+    "test": "jest --runInBand --colors --errorOnDeprecated",
     "test:dev": "jest --watch --runInBand --debug --colors --errorOnDeprecated",
     "test:prod": "jest --runInBand --colors --errorOnDeprecated",
     "test:coverage": "jest --coverage --coverageDirectory=coverage && cat ./coverage/lcov.info",

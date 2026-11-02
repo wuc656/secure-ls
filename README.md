@@ -29,7 +29,7 @@ npm install secure-ls2
 Via yarn
 
 ```bash
-yarn add secure-ls
+yarn add secure-ls2
 ```
 
 ## Libraries used

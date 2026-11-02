@@ -16,15 +16,39 @@ const encryptors = {
   [constants.EncrytionTypes.RC4]: RC4,
 };
 
+const createMemoryStorage = () => {
+  const store = {};
+  return {
+    getItem: (key) => (Object.prototype.hasOwnProperty.call(store, key) ? store[key] : null),
+    setItem: (key, value) => {
+      store[key] = String(value);
+    },
+    removeItem: (key) => {
+      delete store[key];
+    },
+    clear: () => {
+      for (const key of Object.keys(store)) {
+        delete store[key];
+      }
+    },
+    key: (index) => Object.keys(store)[index] || null,
+    get length() {
+      return Object.keys(store).length;
+    },
+  };
+};
+
 export class SecureLS {
   constructor({
     encryptionSecret = '',
     encryptionNamespace = '',
     isCompression = true,
     encodingType = constants.EncrytionTypes.BASE64,
-    storage = localStorage,
+    storage,
     metaKey = constants.metaKey,
   } = {}) {
+    const resolvedStorage = storage || (typeof localStorage !== 'undefined' ? localStorage : createMemoryStorage());
+
     // Assign libraries and utilities
     Object.assign(this, {
       _name: 'secure-ls',
@@ -43,11 +67,11 @@ export class SecureLS {
       encryptionNamespace,
       isCompression,
       encodingType: encodingType.toLowerCase(),
-      storage,
+      storage: resolvedStorage,
       metaKey,
     };
     this.encryptionSecret = encryptionSecret;
-    this.storage = storage;
+    this.storage = resolvedStorage;
     this.metaKey = metaKey;
 
     // Initialize the class
@@ -259,7 +283,7 @@ export class SecureLS {
     this.getEncryptionSecret(key);
 
     // add key(s) to Array if not already added, only for keys other than meta key
-    if (!(String(key) === String(this.metaKey))) {
+    if (String(key) !== String(this.getMetaKey())) {
       if (!utils.isKeyPresent(this.allKeys, key)) {
         this.allKeys.push({
           k: key,
@@ -280,7 +304,7 @@ export class SecureLS {
       return;
     }
 
-    if (key === this.metaKey && this.getAllKeys().length) {
+    if (key === this.getMetaKey() && this.getAllKeys().length) {
       utils.warn(constants.WarningEnum.META_KEY_REMOVE);
       return;
     }
@@ -299,7 +323,7 @@ export class SecureLS {
       this.storage.removeItem(keys[i]);
     }
 
-    this.storage.removeItem(this.metaKey);
+    this.storage.removeItem(this.getMetaKey());
     this.resetAllKeys();
   }
 

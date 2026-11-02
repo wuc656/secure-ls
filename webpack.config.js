@@ -61,7 +61,7 @@ Dependencies used - ${deps}`;
 module.exports = function (_env, argv) {
   const baseConfig = {
     entry: {
-      [libraryName]: '/src/index.js',
+      [libraryName]: path.resolve(__dirname, 'src/index.js'),
     },
     devtool: 'source-map',
     mode: argv.mode === PRODUCTION ? 'production' : 'development',
@@ -83,8 +83,11 @@ module.exports = function (_env, argv) {
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: argv.mode === PRODUCTION ? '[name].min.js' : '[name].js',
-      library: 'SecureLS',
-      libraryTarget: 'umd',
+      library: {
+        name: 'SecureLS',
+        type: 'umd',
+        export: 'default',
+      },
       globalObject: 'this',
       auxiliaryComment: {
         root: ' Root',
@@ -99,7 +102,7 @@ module.exports = function (_env, argv) {
     ...baseConfig,
     output: {
       path: path.resolve(__dirname, 'dist'),
-      filename: argv.mode === PRODUCTION ? '[name].esm.min.js' : '[name].esm.js',
+      filename: argv.mode === PRODUCTION ? '[name].esm.min.mjs' : '[name].esm.mjs',
       library: { type: 'module' },
     },
     experiments: { outputModule: true },

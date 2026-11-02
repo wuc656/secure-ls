@@ -9,6 +9,8 @@ declare class SecureLS {
     encodingType?: string;
     encryptionSecret?: string;
     encryptionNamespace?: string;
+    storage?: Storage;
+    metaKey?: string;
   });
   getEncryptionSecret(): string;
   get(key: string, isAllKeysData?: boolean): any;
@@ -55,4 +57,5 @@ declare namespace SecureLS {
     encode(e: string): string;
     decode(e: string): string;
   }
+  export { SecureLS };
 }

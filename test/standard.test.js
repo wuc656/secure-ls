@@ -132,6 +132,18 @@ describe('Standard SecureLS API Tests ->', () => {
       expect(spyGetAllKeys).toHaveBeenCalled();
       expect(lib.allKeys.length).toBe(0);
     });
+
+    it('should remove namespaced metadata key from storage', () => {
+      const namespacedLib = new SecureLS({ encryptionNamespace: 'ns1' });
+      namespacedLib.set('ns-key', { secret: 'val' });
+      const metaKey = namespacedLib.getMetaKey();
+
+      expect(namespacedLib.getDataFromLocalStorage(metaKey)).toBeTruthy();
+
+      namespacedLib.removeAll();
+      expect(namespacedLib.getDataFromLocalStorage(metaKey)).toBeFalsy();
+      expect(namespacedLib.allKeys.length).toBe(0);
+    });
   });
 
   describe('secure-ls: clear method', () => {
@@ -143,6 +155,18 @@ describe('Standard SecureLS API Tests ->', () => {
 
       lib.clear();
       expect(lib.allKeys.length).toBe(0);
+    });
+  });
+
+  describe('secure-ls: namespaced remove warning', () => {
+    it('should warn if namespaced meta key is removed while keys exist', () => {
+      const namespacedLib = new SecureLS({ encryptionNamespace: 'ns2' });
+      namespacedLib.set('ns2-key', 'data');
+      const metaKey = namespacedLib.getMetaKey();
+
+      namespacedLib.remove(metaKey);
+      expect(console.warn).toHaveBeenCalled();
+      namespacedLib.removeAll();
     });
   });
 });
