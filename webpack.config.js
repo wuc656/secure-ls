@@ -17,10 +17,10 @@ Object.keys(packageFile.dependencies).map((key, index) => {
 let libraryHeaderComment;
 
 function addPlugins(argv) {
-  const version = semver.inc(libVersion, argv.env.type) || libVersion;
+  const version = semver.inc(libVersion, argv?.env?.type) || libVersion;
 
   libraryHeaderComment = `${libraryName} - v${version}
-URL - https://github.com/softvar/secure-ls
+URL - https://github.com/wuc656/secure-ls
 
 The MIT License (MIT)
 

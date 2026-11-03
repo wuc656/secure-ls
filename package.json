@@ -23,12 +23,10 @@
     "types"
   ],
   "scripts": {
+    "prebuild": "node -e \"const fs = require('fs'); fs.rmSync('dist', { recursive: true, force: true })\"",
     "build": "yarn build-dev && yarn build-prod",
     "build-dev": "webpack --mode=development",
     "build-prod": "webpack --mode=production",
-    "build:patch": "yarn build-dev --env type=patch npm version patch",
-    "build:minor": "yarn build-dev --env type=minor npm version minor",
-    "build:major": "yarn build-dev --env type=major npm version major",
     "lint": "eslint src/*.js --fix",
     "prepare": "husky",
     "prettier": "prettier -w \"{src,test,example}/**/*.js\" \"*.md\"",
@@ -90,8 +88,9 @@
   },
   "homepage": "https://github.com/wuc656/secure-ls",
   "engines": {
-    "node": ">=8.0"
+    "node": ">=18.0.0"
   },
+  "packageManager": "yarn@4.18.0",
   "engineStrict": true,
   "allowScripts": {
     "unrs-resolver@1.11.1": true

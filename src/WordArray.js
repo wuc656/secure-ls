@@ -7,6 +7,15 @@
 
 let CryptoJSWordArray = {
   random: function (nBytes) {
+    const cryptoObj = typeof globalThis !== 'undefined' ? globalThis.crypto : undefined;
+    if (cryptoObj && typeof cryptoObj.getRandomValues === 'function') {
+      const wordsCount = Math.ceil(nBytes / 4);
+      const uint32Arr = new Uint32Array(wordsCount);
+      cryptoObj.getRandomValues(uint32Arr);
+      const words = Array.from(uint32Arr);
+      return new CryptoJSWordArray.Set(words, nBytes);
+    }
+
     let words = [];
     let r = function (mw) {
       let mz = 0x3ade68b1;

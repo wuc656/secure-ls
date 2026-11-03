@@ -27,6 +27,21 @@ const enc = {
   _Utf8: {
     stringify: (wordArray) => {
       try {
+        const Decoder =
+          typeof TextDecoder !== 'undefined'
+            ? TextDecoder
+            : typeof globalThis !== 'undefined' && globalThis.TextDecoder
+              ? globalThis.TextDecoder
+              : undefined;
+        if (Decoder) {
+          const sigBytes = wordArray.sigBytes;
+          const words = wordArray.words;
+          const bytes = new Uint8Array(sigBytes);
+          for (let i = 0; i < sigBytes; i++) {
+            bytes[i] = (words[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff;
+          }
+          return new Decoder('utf-8', { fatal: true }).decode(bytes);
+        }
         return decodeURIComponent(escape(enc.Latin1.stringify(wordArray)));
       } catch (err) {
         throw new Error('Malformed UTF-8 data', err);

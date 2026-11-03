@@ -1,5 +1,7 @@
 import SecureLS from '../src/index';
 import utils from '../src/utils';
+import CryptoJSWordArray from '../src/WordArray';
+import enc from '../src/enc-utf8';
 
 let lib;
 
@@ -115,6 +117,50 @@ describe('Utils tests', () => {
       expect(allKeys.length).toBe(1);
       utils.removeFromKeysList(allKeys, 'stars');
       expect(allKeys.length).toBe(0);
+    });
+  });
+
+  describe('CryptoJSWordArray random and CSPRNG fallback', () => {
+    test('generate random word array with CSPRNG', () => {
+      const res = CryptoJSWordArray.random(16);
+      expect(res.sigBytes).toBe(16);
+      expect(res.words.length).toBe(4);
+    });
+
+    test('generate random word array with legacy fallback when crypto.getRandomValues is undefined', () => {
+      const originalCrypto = globalThis.crypto;
+      try {
+        delete globalThis.crypto;
+        const res = CryptoJSWordArray.random(16);
+        expect(res.sigBytes).toBe(16);
+        expect(res.words.length).toBe(4);
+      } finally {
+        globalThis.crypto = originalCrypto;
+      }
+    });
+  });
+
+  describe('enc._Utf8 stringify', () => {
+    test('properly decodes UTF-8 multi-byte characters', () => {
+      const testStr = 'Hello 世界 🚀';
+      const encoded = Buffer.from(testStr, 'utf-8');
+      const words = [];
+      for (let i = 0; i < encoded.length; i += 4) {
+        let word = 0;
+        for (let j = 0; j < 4; j++) {
+          if (i + j < encoded.length) {
+            word |= encoded[i + j] << (24 - j * 8);
+          }
+        }
+        words.push(word);
+      }
+      const wordArray = { words, sigBytes: encoded.length };
+      expect(enc._Utf8.stringify(wordArray)).toBe(testStr);
+    });
+
+    test('throws error on malformed UTF-8 data', () => {
+      const wordArray = { words: [0xffffffff], sigBytes: 4 };
+      expect(() => enc._Utf8.stringify(wordArray)).toThrow('Malformed UTF-8 data');
     });
   });
 });

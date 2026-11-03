@@ -6,8 +6,8 @@ Secure localStorage/sessionStorage data with high level of encryption and data c
 
 [![npm version](https://img.shields.io/npm/v/secure-ls2?style=for-the-badge&color=grey&logo=npm)](https://www.npmjs.com/package/secure-ls2) [![npm](https://img.shields.io/npm/dt/secure-ls2.svg?style=for-the-badge&color=blue)](https://www.npmjs.com/package/secure-ls2)
 
-[![CI](https://img.shields.io/github/actions/workflow/status/softvar/secure-ls/test.yml?style=for-the-badge&logo=github)](https://github.com/softvar/secure-ls/actions?query=workflow%3ACI)
-[![codecov](https://img.shields.io/codecov/c/github/softvar/secure-ls?token=HxMmlpGn3k&style=for-the-badge&logo=codecov)](https://codecov.io/gh/softvar/secure-ls)
+[![CI](https://img.shields.io/github/actions/workflow/status/wuc656/secure-ls/test.yml?style=for-the-badge&logo=github)](https://github.com/wuc656/secure-ls/actions?query=workflow%3ACI)
+[![codecov](https://img.shields.io/codecov/c/github/wuc656/secure-ls?token=HxMmlpGn3k&style=for-the-badge&logo=codecov)](https://codecov.io/gh/wuc656/secure-ls)
 
 **[LIVE DEMO](http://softvar.github.io/secure-ls#live-demo)**
 
